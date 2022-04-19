@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,5 +21,25 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/admin/dashboard', [\App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin');
-Route::resource('categories',\App\Http\Controllers\Admin\CategoryController::class)->except('destroy');
+
+Route::group([
+    'prefix' =>'admin'
+],function (){
+
+    Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin');
+//    Route::resource('categories',\App\Http\Controllers\Admin\CategoryController::class)->except('update','destroy');
+    Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
+    Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+    Route::post('/categories/store', [CategoryController::class, 'store'])->name('categories.store');
+    Route::post('/categories/update/{id}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::get('/categories/delete/{id}', [CategoryController::class, 'destroy'])->name('categories.delete');
+
+
+    //  products
+    Route::resource('products',\App\Http\Controllers\Admin\ProductController::class)->except('update','destroy');
+    Route::post('/update/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'update'])->name('products.update');
+    Route::get('/delete/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('products.delete');
+
+});
+

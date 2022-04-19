@@ -1,25 +1,24 @@
 @extends('Admin.layouts.Admin-dashboard')
 @section('title','Categories')
+@section('main_title','categories')
+@section('page','categories')
 @section('content')
 <div class="row">
-    <h1>Categories</h1>
+{{--    <h1>Categories</h1>--}}
 
-
-    <div >
-            @if (session()->has('success'))
-                <div class="alert alert-success">
-                    {{session()->get('success')}}
-                </div>
-            @endif
+    @if(session()->has('success'))
+        <div class="alert alert-success">
+            {{session('success')}}
         </div>
-
-
+    @endif
             <!-- Button trigger modal -->
        <div>
-           <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#category" id="addcategory">
+           <a href="{{url('/categories/create')}}" class="btn btn-primary m-3 " data-bs-toggle="modal" data-bs-target="#category" id="addCategory">
                Add Category
-           </button>
+           </a>
        </div>
+
+
 
     <table class="table">
         <thead>
@@ -37,13 +36,13 @@
         <tr>
             <td>{{$loop->iteration}}</td>
             <td>{{$category->name}}</td>
-            <td>{{$category->parent_id}}</td>
+            <td>{{$category->parent_id}} </td>
             <td>{{$category->description}}</td>
 
             <td>
                 <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#category"  onclick="editCategory({{$category->id}})">
                     Edit </a>
-                <a href="" class="btn btn-danger">Delete</a>
+                <a href="{{route('categories.delete',$category->id)}}" class="btn btn-danger">Delete</a>
 
             </td>
         </tr>
@@ -82,13 +81,14 @@
                 'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
             }
         });
-
-        $('#addcategory').click((e)=>{
+        $('#addCategory').click((e)=>{
+            console.log('gg')
             e.preventDefault()
             $.ajax({
                 type: "GET",
-                url: `{{url('categories/create')}}`,
+                url: `{{route('categories.create')}}`,
                 success:function (response){
+                    console.log('success');
                     $('#content').html(response)
 
 
@@ -96,10 +96,12 @@
             })
         });
 
+
         function editCategory(id) {
+
             $.ajax({
                 type: "GET",
-                url: `{{url('/categories/edit')}}/${id}`,
+                url: "{{url('/admin/categories')}}" + "/" + id + "/edit",
                 success: function (response) {
                     $('#content').html(response)
                 }

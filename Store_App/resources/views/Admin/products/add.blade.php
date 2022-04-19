@@ -1,7 +1,5 @@
-{{--@extends('Admin.layouts.Admin-dashboard')--}}
-{{--@section('title','Categories')--}}
-{{--@section('content')--}}
-        <h1>Add Category</h1>
+
+        <h1>Create Product</h1>
 
     </div>
         @if ($errors->any())
@@ -25,16 +23,44 @@
                 </div>
 
                 <div class="col-md-12 mb-3">
-                    <label for="">Parent Id</label>
-                    <select  class="form-control" name="parent_id" @error('parent_id') is-invalid  @enderror >
-                        @error('parent_id')
+                    <label for="">category </label>
+                    <select  class="form-control" name="category_id" @error('category_id') is-invalid  @enderror >
+
+                        @error('category_id')
                         <p class="invalid-feedback">{{$message}}</p>
                         @enderror
-                        <option value="">No Parent</option>
-                        @foreach($categories as $cat)
-                        <option value="{{$cat->id}}">{{$cat->name}}</option>
+                        @foreach($categories as $item)
+                        <option value="{{$item->id}}" >{{$item->name}}</option>
                         @endforeach
                     </select>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label for="">Price</label>
+                    <input type="number" class="form-control" name="price" value="{{old('price')}}" @error('price') is-invalid  @enderror >
+                    @error('price')
+                    <p class="invalid-feedback">{{$message}}</p>
+                    @enderror
+
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label for="">Sale Price</label>
+                    <input type="number" class="form-control" name="sale_price" value="{{old('price')}}" @error('sale_') is-invalid  @enderror >
+                    @error('sale_price')
+                    <p class="invalid-feedback">{{$message}}</p>
+                    @enderror
+
+                </div>
+
+
+                <div class="col-md-12 mb-3">
+                    <label for="">Quantity</label>
+                    <input type="number" class="form-control" name="quantity" value="{{old('quantity')}}" @error('quantity') is-invalid  @enderror >
+                    @error('quantity')
+                    <p class="invalid-feedback">{{$message}}</p>
+                    @enderror
+
                 </div>
 
                 <div class="col-md-12 mb-3">
@@ -45,6 +71,16 @@
                     <p class="invalid-feedback">{{$message}}</p>
                     @enderror
                 </div>
+
+                <label for="">Image</label>
+                <input type="file" name="image"  @error('image') is-invalid  @enderror >
+
+                @error('description')
+                <p class="invalid-feedback">{{$message}}</p>
+                @enderror
+            </div>
+
+            <input type="hidden" value="{{\Illuminate\Support\Facades\Auth::id()}}" name="user_id">
 
                 <div class="col-md-12 m-3">
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -72,7 +108,7 @@
         var formData = new FormData(this);
         $.ajax({
             method:"POST",
-            url:"{{ route('categories.store') }}",
+            url:"{{ route('products.store') }}",
             data: formData,
             contentType: false,
             processData: false,

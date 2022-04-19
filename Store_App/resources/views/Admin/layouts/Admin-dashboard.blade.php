@@ -159,12 +159,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard</h1>
+                        <h1 class="m-0">@yield('main_title','Dashboard')</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard v1</li>
+                            <li class="breadcrumb-item active">@yield('page')</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -232,5 +232,12 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+{{--sweet alert--}}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+@yield('script')
+
 </body>
 </html>

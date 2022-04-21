@@ -22,9 +22,27 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products=Product::paginate(15);
+        $request=request();
+        $filters=$request->query();
+        $products=Product::query();
+        if ($request->query('name')){
+            $products->where('name','LIKE','%' .$request->query('name'). '%' );
+        }
+
+        if ($request->query('price_min')){
+            $products->where('price','>=',$request->query('price_min'));
+        }
+
+        if ($request->query('price_max')){
+            $products->where('price','<=',$request->query('price_max'));
+        }
+        if ($request->query('category_id')){
+            $products->where('category_id',$request->query('category_id'));
+        }
         $categories=Category::all();
-        return view('admin.products.index',compact('products','categories')) ;
+        return view('admin.products.index',['categories' => $categories,
+            'products' =>$products->paginate(10),'filters' =>$filters
+        ]) ;
     }
 
     /**

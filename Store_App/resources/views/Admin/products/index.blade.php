@@ -31,7 +31,22 @@
        </div>
 
 
+<div>
+    <form class="d-flex mb-3" action="{{route('products.index')}}" method="get">
+        <input name="name" class="form-control me-2" type="text" value="{{$filters->name ?? ''}}" placeholder="Product name" aria-label="Search">
+        <input name="price_min" class="form-control me-2" type="number" {{$filters->price_min ?? ''}} placeholder="price from" aria-label="Search">
+        <input name="price_max" class="form-control me-2" type="number" {{$filters->price_max ?? ''}} placeholder="price to" aria-label="Search">
+        <select name="category_id" class="form-control me-2"  placeholder="price to" aria-label="Search">
+            <option value="">all categories</option>
+            @foreach(\App\Models\Category::all() as $category)
+            <option value="{{$category->id}}" @if($category->id == ($filters['category_id'] ?? ''))  selected   @endif>{{$category->name}}</option>
+            @endforeach
+        </select>
 
+
+        <button class="btn btn-outline-success" type="submit">Find</button>
+    </form>
+</div>
     <table class="table">
         <thead>
         <tr>

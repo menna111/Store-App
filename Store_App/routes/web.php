@@ -41,6 +41,12 @@ Route::group([
     Route::post('/update/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'update'])->name('products.update');
     Route::get('/delete/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('products.delete');
 
+    Route::resource('users',\App\Http\Controllers\Admin\UsersController::class);
+    Route::post('/update/{id}', [\App\Http\Controllers\Admin\UsersController::class, 'update'])->name('user.update');
+    Route::get('/delete/{id}', [\App\Http\Controllers\Admin\UsersController::class, 'destroy'])->name('user.delete');
+
+
+
 });
 
 Route::middleware(['auth:sanctum','verified'])->get('/dashboard',function (){

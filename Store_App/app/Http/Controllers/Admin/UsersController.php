@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Profile;
 use App\Models\User;
+use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
 {
+    use ResponseTrait;
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +30,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.users.create');
     }
 
     /**
@@ -37,7 +41,35 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' =>'required|max:50|min:3|string',
+            'email' =>'unique:users,email|required',
+            'password' =>'required|confirmed|max:50|min:8',
+            'birthday' =>'required|date',
+            'gender' =>'required|in:male,female',
+            'city' =>'nullable',
+            'country' =>'nullable',
+            'address' =>'nullable',
+
+        ]);
+        DB::beginTransaction();
+       $user= User::create([
+            'name'=> $request->post('name'),
+            'email'=> $request->post('email'),
+            'passwword'=> Hash::make($request->post('name')),
+        ]);
+        Profile::create([
+            'user_id' =>$user->id,
+            'birthday' =>$request->post('birthday'),
+            'gender' =>$request->post('gender'),
+            'city' =>$request->post('city'),
+            'country' =>$request->post('country'),
+            'address' =>$request->post('address'),
+        ]);
+        DB::commit();
+
+
+        return $this->returnSuccess('added successfully',200);
     }
 
     /**

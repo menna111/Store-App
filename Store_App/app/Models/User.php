@@ -27,6 +27,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'address',
+        'birthday',
+        'country',
+        'city',
+        'user_id'
     ];
 
     /**
@@ -62,5 +67,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function profile(){
         return $this->hasOne(Profile::class,'user_id','id')->withDefault();
+    }
+    public function products(){
+        return $this->hasMany(Product::class,'user_id','id');
     }
 }

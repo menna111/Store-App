@@ -54,10 +54,10 @@
 
 
                 <li class="nav-item menu-open">
-                    <a href="" class="nav-link ">
+                    <a href="{{route('users.index')}}" class="nav-link ">
                         <i class="nav-icon fas fa-tree"></i>
                         <p>
-                            Categories
+                            Users
                         </p>
                     </a>
                 </li>

@@ -22,9 +22,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $request=request();
+        $request=request();    //اللي جايلي من السيرش
         $filters=$request->query();
-        $products=Product::query();
+
+        $products=Product::query()->with('category','user');  // بترجعلي الكويري نفسه هعمل عليه عمليات
+
         if ($request->query('name')){
             $products->where('name','LIKE','%' .$request->query('name'). '%' );
         }
@@ -106,7 +108,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $product=Product::findOrFail($id);
+        return view('admin.products.show',compact('product'));
     }
 
     /**

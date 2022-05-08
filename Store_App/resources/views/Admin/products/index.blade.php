@@ -56,6 +56,7 @@
             <th>Price</th>
             <th>Sale Price</th>
             <th>Quantity</th>
+            <th>User</th>
             <th>Description</th>
             <th>Image</th>
 
@@ -64,21 +65,22 @@
         </thead>
 
         <tbody>
-        @forelse($products as $Product)
+        @forelse($products as $product)
         <tr>
             <td>{{$loop->iteration}}</td>
-            <td>{{$Product->name}}</td>
-            <td>{{$Product->category->name}}</td>
-            <td>{{$Product->price}}</td>
-            <td>{{$Product->sale_price}}</td>
-            <td>{{$Product->quantity}}</td>
-            <td>{{$Product->description}}</td>
-            <td><img src="{{ asset($Product->image) }}" alt="product" height="100px;" width="100px"> </td>
+            <td><a href="{{route('products.show',$product->id)}}" >{{$product->name}}</a></td>
+            <td>{{$product->category->name}}</td>
+            <td>{{$product->price}}</td>
+            <td>{{$product->sale_price}}</td>
+            <td>{{$product->quantity}}</td>
+            <td>{{$product->user->name}}</td>
+            <td>{{$product->description}}</td>
+            <td><img src="{{ asset($product->image) }}" alt="product" height="100px;" width="100px"> </td>
 
             <td>
-                <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Product"  onclick="editProduct({{$Product->id}})">
+                <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Product"  onclick="editProduct({{$product->id}})">
                     Edit </a>
-                <a href="{{route('products.delete',$Product->id)}}" class="btn btn-danger">Delete</a>
+{{--                <a href="{{route('products.delete',$product->id)}}" class="btn btn-danger">Delete</a>--}}
 
             </td>
         </tr>

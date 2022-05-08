@@ -25,7 +25,8 @@
         <tr>
             <th>#</th>
             <th>Name</th>
-            <th>Parent ID</th>
+            <th>Parent </th>
+            <th>Products count </th>
             <th>Description</th>
             <th>Actions</th>
         </tr>
@@ -36,7 +37,8 @@
         <tr>
             <td>{{$loop->iteration}}</td>
             <td>{{$category->name}}</td>
-            <td>{{$category->parent_id}} </td>
+            <td>{{$category->parent->name}} </td>
+            <td>{{$category->products_count}} </td>
             <td>{{$category->description}}</td>
 
             <td>

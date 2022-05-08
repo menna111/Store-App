@@ -13,9 +13,9 @@
     @endif
             <!-- Button trigger modal -->
        <div>
-           <a href="{{url('/users/create')}}" class="btn btn-primary m-3 " data-bs-toggle="modal" data-bs-target="#user" id="adduser">
+           <button class="btn btn-primary m-3 " data-bs-toggle="modal" data-bs-target="#user" id="adduser">
                Add user
-           </a>
+           </button>
        </div>
 
 

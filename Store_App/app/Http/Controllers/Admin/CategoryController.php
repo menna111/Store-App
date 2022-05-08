@@ -31,7 +31,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories=Category::all();
+        $categories=Category::with('parent')->withCount('products as products')->paginate();
 
         return view('Admin.categories.add',compact('categories'));
     }

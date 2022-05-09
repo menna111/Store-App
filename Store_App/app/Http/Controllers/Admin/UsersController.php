@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\Profile;
+use App\Models\Tag;
 use App\Models\User;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
@@ -117,4 +119,7 @@ class UsersController extends Controller
     {
         //
     }
+
+
+
 }

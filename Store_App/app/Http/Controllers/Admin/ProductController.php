@@ -57,6 +57,7 @@ class ProductController extends Controller
     {
         $categories=Category::all();
         $tags=Tag::all();
+
         return view('admin.products.add',compact('categories','tags'));
     }
 
@@ -89,6 +90,11 @@ class ProductController extends Controller
             }
 
             $product=Product::create($data);
+            $tags=$request->post('tag');
+
+            $this->saveTags($product,$request);     //pass to function that check and create tags
+
+//            $product->tags()->sync($tags);
 
             DB::commit();
 
@@ -123,10 +129,12 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product=Product::findOrFail($id);
         $categories=Category::all();
         $tags=Tag::all();
-        $product_tags=$product->tags->pluck('id')->toArray();      //بيرجع عمود واحد م الجدولpluck
+
+        $product=Product::findOrFail($id);
+//        $product_tags=$product->tags->pluck('id')->toArray();      //بيرجع عمود واحد م الجدولpluck
+        $product_tags=implode(',', $product->tags->pluck('name')->toArray()) ;
         return view('admin.products.edit',compact('id','product','categories','tags','product_tags'));
     }
 
@@ -155,20 +163,27 @@ class ProductController extends Controller
         $data=$request->except('image');
 
 
-        $tags=$request->post('tag',[]);      //[] second parameter is a default value
+        $tags=$request->post('tag');      //[] second parameter is a default value
 
         try {
             DB::beginTransaction();
 
-            DB::table('product_tag')->where('product_id',$product->id)->delete();
-            foreach ($tags as $tag_id){
-            DB::table('product_tag')->insert([
-                'product_id' =>$product->id,
-                'tag_id' =>$tag_id
 
-            ]);
-            }
+            $this->saveTags($product,$request);     //pass to function that check and create tags
 
+
+//            $product->tags()->sync($tags);               //delete id and insert the newest in one command
+//            DB::table('product_tag')->where('product_id',$product->id)->delete();  //delete old and insert the new
+//            foreach ($tags as $tag_id){
+//            DB::table('product_tag')->insert([
+//                'product_id' =>$product->id,
+//                'tag_id' =>$tag_id
+//
+//            ]);
+//            }
+
+
+            //error in image ???????????
 //            if ($request->has('image') && $request->file('image')->isValid() ){
 //                $data['image']=$this->uploadImage($request->file('image'),'uploaded/products',50);
 //            }
@@ -206,5 +221,34 @@ class ProductController extends Controller
             Storage::disk('public')->delete($product->image);
         }
         return back()->with('success','deleted');
+    }
+
+
+
+    public function saveTags(Product $product,Request $request){         //insert tags by input user write them
+
+        $tags=$request->post('tag');
+
+        $tags=explode(',', $tags ) ;
+
+        $tags_ids=[];                                                                  //to intialize array
+
+
+
+        foreach ($tags as $name){                                        //  loop to find tag is exist in tags table
+
+            $name=strtolower(trim($name));
+            $tag=Tag::where('name',$name)->first();
+
+            if (! $tag){                                                  //if tag not exist create it
+              $tag=  Tag::create([
+                    'name' =>$name
+                ]);
+            }
+            $tags_ids[]=$tag->id;                          //to insert tags in the relation we put ids in array
+
+        }
+        $product->tags()->sync($tags_ids);                          // insert the ids in relation table
+
     }
 }

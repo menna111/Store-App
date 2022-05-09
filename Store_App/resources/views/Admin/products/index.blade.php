@@ -80,7 +80,7 @@
             <td>
                 <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Product"  onclick="editProduct({{$product->id}})">
                     Edit </a>
-{{--                <a href="{{route('products.delete',$product->id)}}" class="btn btn-danger">Delete</a>--}}
+                <a href="{{route('products.delete',$product->id)}}" class="btn btn-danger">Delete</a>
 
             </td>
         </tr>

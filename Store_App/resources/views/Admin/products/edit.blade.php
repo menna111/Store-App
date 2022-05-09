@@ -90,13 +90,11 @@
 
                 <div class="col-md-12 mb-3">
                     <label for="">Tags</label>
-                    @foreach($tags as $tag)
+
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="tag[]" value="{{$tag->id}}"
-                            @if(in_array($tag->id,$product_tags)) checked @endif >
-                            <label class="form-check-label">{{$tag->name}}</label>
+                            <input class="form-control" type="text" name="tag" value="{{$product_tags}}">
                         </div>
-                    @endforeach
+
 
                 </div>
 

@@ -83,12 +83,14 @@
             <div>
                 <div class="col-md-12 mb-3">
                     <label for="">Tags</label>
-                    @foreach($tags as $tag)
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="tag[]" value="{{$tag->id}}">
-                         <label class="form-check-label">{{$tag->name}}</label>
-                        </div>
-                    @endforeach
+
+                    <input type="text" name="tag" class="form-control">
+{{--                    @foreach($tags as $tag)--}}
+{{--                        <div class="form-check">--}}
+{{--                            <input class="form-check-input" type="checkbox" name="tag[]" value="{{$tag->id}}">--}}
+{{--                         <label class="form-check-label">{{$tag->name}}</label>--}}
+{{--                        </div>--}}
+{{--                    @endforeach--}}
 
                 </div>
 

@@ -55,7 +55,7 @@
 
     <div class="form-group">
         <label for="exampleInputAddress">Address</label>
-        <input  name="address" type="text" class="form-control" id="exampleInputAddress" placeholder="address" @error('address') is-invalid  @enderror>
+        <input  name="address" type="text" class="form-control" id="exampleInputAddress" placeholder="address" @error('address') is-invalid  @enderror >
         @error('address')
         <p class="invalid-feedback">{{$message}}</p>
         @enderror

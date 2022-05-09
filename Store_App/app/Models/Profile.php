@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Profile extends Model
 {
     use HasFactory;
+    protected $guarded=[];
     public $incrementing=false;
     protected $primaryKey='user_id';
 

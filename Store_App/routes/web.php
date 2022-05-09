@@ -38,8 +38,8 @@ Route::group([
 
     //  products
     Route::resource('products',\App\Http\Controllers\Admin\ProductController::class)->except('update','destroy');
-    Route::post('/update/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'update'])->name('products.update');
-    Route::get('/delete/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('products.delete');
+    Route::post('/products/update/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'update'])->name('products.update');
+    Route::get('/products/delete/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('products.delete');
 
     //users
     Route::resource('/users',\App\Http\Controllers\Admin\UsersController::class);

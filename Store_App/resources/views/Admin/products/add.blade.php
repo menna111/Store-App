@@ -80,6 +80,20 @@
                 @enderror
             </div>
 
+            <div>
+                <div class="col-md-12 mb-3">
+                    <label for="">Tags</label>
+                    @foreach($tags as $tag)
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="tag[]" value="{{$tag->id}}">
+                         <label class="form-check-label">{{$tag->name}}</label>
+                        </div>
+                    @endforeach
+
+                </div>
+
+                </div>
+
             <input type="hidden" value="{{\Illuminate\Support\Facades\Auth::id()}}" name="user_id">
 
                 <div class="col-md-12 m-3">

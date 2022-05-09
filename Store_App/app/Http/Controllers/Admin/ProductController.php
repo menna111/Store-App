@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Tag;
 use App\Traits\ImageUpload;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
@@ -55,7 +56,8 @@ class ProductController extends Controller
     public function create()
     {
         $categories=Category::all();
-        return view('admin.products.add',compact('categories'));
+        $tags=Tag::all();
+        return view('admin.products.add',compact('categories','tags'));
     }
 
     /**
@@ -109,7 +111,8 @@ class ProductController extends Controller
     public function show($id)
     {
         $product=Product::findOrFail($id);
-        return view('admin.products.show',compact('product'));
+        $tags=Tag::where('product_id',$product->id);
+        return view('admin.products.show',compact('product','tags'));
     }
 
     /**
@@ -122,7 +125,9 @@ class ProductController extends Controller
     {
         $product=Product::findOrFail($id);
         $categories=Category::all();
-        return view('admin.products.edit',compact('id','product','categories'));
+        $tags=Tag::all();
+        $product_tags=$product->tags->pluck('id')->toArray();      //بيرجع عمود واحد م الجدولpluck
+        return view('admin.products.edit',compact('id','product','categories','tags','product_tags'));
     }
 
     /**
@@ -149,12 +154,24 @@ class ProductController extends Controller
 
         $data=$request->except('image');
 
+
+        $tags=$request->post('tag',[]);      //[] second parameter is a default value
+
         try {
             DB::beginTransaction();
 
-            if ($request->has('image') && $request->file('image')->isValid() ){
-                $data['image']=$this->uploadImage($request->file('image'),'uploaded/products',50);
+            DB::table('product_tag')->where('product_id',$product->id)->delete();
+            foreach ($tags as $tag_id){
+            DB::table('product_tag')->insert([
+                'product_id' =>$product->id,
+                'tag_id' =>$tag_id
+
+            ]);
             }
+
+//            if ($request->has('image') && $request->file('image')->isValid() ){
+//                $data['image']=$this->uploadImage($request->file('image'),'uploaded/products',50);
+//            }
 
 
 

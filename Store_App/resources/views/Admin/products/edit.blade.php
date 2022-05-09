@@ -88,6 +88,18 @@
                     @enderror
                 </div>
 
+                <div class="col-md-12 mb-3">
+                    <label for="">Tags</label>
+                    @foreach($tags as $tag)
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="tag[]" value="{{$tag->id}}"
+                            @if(in_array($tag->id,$product_tags)) checked @endif >
+                            <label class="form-check-label">{{$tag->name}}</label>
+                        </div>
+                    @endforeach
+
+                </div>
+
                 <div class="col-md-12 m-3">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>

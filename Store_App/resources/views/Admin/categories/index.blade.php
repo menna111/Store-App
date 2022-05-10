@@ -38,7 +38,7 @@
             <td>{{$loop->iteration}}</td>
             <td>{{$category->name}}</td>
             <td>{{$category->parent->name}} </td>
-            <td>{{$category->products_count}} </td>
+            <td>{{$category->products->count()}} </td>
             <td>{{$category->description}}</td>
 
             <td>
